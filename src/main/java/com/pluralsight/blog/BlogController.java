@@ -38,6 +38,20 @@ public class BlogController {
     public String postDetails(@PathVariable Long id, ModelMap modelMap) {
         Post post = postRepository.findById(id).orElse(null);
         modelMap.put("post", post);
+
         return "post-details";
+    }
+
+    @RequestMapping("/category/{id}")
+    public String categoryList(@PathVariable Long id, ModelMap modelMap) {
+        Category category = categoryRepository.findById(id).orElse(null);
+        List<Category> categories = categoryRepository.findAll();
+        List<Post> posts = postRepository.findByCategory(category);
+
+        modelMap.put("category", category);
+        modelMap.put("categories", categories);
+        modelMap.put("posts", posts);
+
+        return "category-list";
     }
 }
